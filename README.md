@@ -3,8 +3,8 @@
 
 ### Organização do código
 > Os exercícios estarão separados por **branchs**.
-> 1. Será uma branch para o exercício (ex-01)
-> 2. E outra para a solução (ex-01-solucao)
+> 1. Será uma branch para o exercício (ex01)
+> 2. E várias outras para a refatoração do mesmo (ex01-ref01, ex01-ref02)
 
 ### Linguagem
 > * O livro utiliza JavaScript nos exemplos.
