@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.86.0/testing/asserts.ts";
-import { statement } from "../statement.js";
+import statement from "../statement.js";
 
 const invoices = JSON.parse(Deno.readTextFileSync("./invoices.json"));
 const plays = JSON.parse(Deno.readTextFileSync("./plays.json"));
