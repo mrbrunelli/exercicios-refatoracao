@@ -1,7 +1,7 @@
-const invoices = JSON.parse(await Deno.readTextFile("./invoices.json"));
-const plays = JSON.parse(await Deno.readTextFile("./plays.json"));
+const invoices = JSON.parse(Deno.readTextFileSync("./invoices.json"));
+const plays = JSON.parse(Deno.readTextFileSync("./plays.json"));
 
-function statement(invoice, plays) {
+export function statement(invoice, plays) {
   let totalAmount = 0;
   let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
@@ -34,9 +34,9 @@ function statement(invoice, plays) {
   return result;
 }
 
-const result = statement(
-  invoices,
-  plays,
-);
+// const result = statement(
+//   invoices,
+//   plays,
+// );
 
-console.log(result);
+// console.log(result);
