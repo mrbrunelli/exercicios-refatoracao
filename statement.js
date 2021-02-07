@@ -7,11 +7,12 @@ export default function statement(invoice, plays) {
   let result = `Statement for ${invoice.customer}\n`;
   for (let perf of invoice.performances) {
     volumeCredits += volumeCreditsFor(perf);
-    result += `${playFor(perf).name}: ${amountFor(perf) /
-      100} (${perf.audience} seats)\n`;
+    result += `${playFor(perf).name}: ${
+      format(amountFor(perf) / 100)
+    } (${perf.audience} seats)\n`;
     totalAmount += amountFor(perf);
   }
-  result += `Amount owed is ${totalAmount / 100}\n`;
+  result += `Amount owed is ${format(totalAmount / 100)}\n`;
   result += `You earned ${volumeCredits} credits\n`;
   return result;
 
@@ -47,5 +48,9 @@ export default function statement(invoice, plays) {
       result += Math.floor(perf.audience / 5);
     }
     return result;
+  }
+
+  function format(aNumber) {
+    return `R$ ${aNumber}`;
   }
 }
