@@ -6,11 +6,12 @@ export default function statement(invoice, plays) {
   let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
   for (let perf of invoice.performances) {
-    const play = playFor(perf);
-    let thisAmount = amountFor(perf, play);
+    let thisAmount = amountFor(perf, playFor(perf));
     volumeCredits += Math.max(perf.audience - 30, 0);
-    if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
-    result += `${play.name}: ${thisAmount / 100} (${perf.audience} seats)\n`;
+    if ("comedy" === playFor(perf).type) {
+      volumeCredits += Math.floor(perf.audience / 5);
+    }
+    result += `${playFor(perf).name}: ${thisAmount / 100} (${perf.audience} seats)\n`;
     totalAmount += thisAmount;
   }
   result += `Amount owed is ${totalAmount / 100}\n`;
