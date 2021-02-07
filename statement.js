@@ -6,7 +6,7 @@ export default function statement(invoice, plays) {
   let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
   for (let perf of invoice.performances) {
-    let thisAmount = amountFor(perf, playFor(perf));
+    let thisAmount = amountFor(perf);
     volumeCredits += Math.max(perf.audience - 30, 0);
     if ("comedy" === playFor(perf).type) {
       volumeCredits += Math.floor(perf.audience / 5);
@@ -19,7 +19,7 @@ export default function statement(invoice, plays) {
   result += `You earned ${volumeCredits} credits\n`;
   return result;
 
-  function amountFor(aPerformance, play) {
+  function amountFor(aPerformance) {
     let result = 0;
     switch (playFor(aPerformance).type) {
       case "tragedy":
