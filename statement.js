@@ -6,7 +6,7 @@ export default function statement(invoice, plays) {
   let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
   for (let perf of invoice.performances) {
-    const play = plays[perf.playID];
+    const play = playFor(perf);
     let thisAmount = amountFor(perf, play);
     volumeCredits += Math.max(perf.audience - 30, 0);
     if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
@@ -36,5 +36,9 @@ export default function statement(invoice, plays) {
         throw new Error(`unknown type: ${play.type}`);
     }
     return result;
+  }
+
+  function playFor(aPerformance) {
+    return plays[aPerformance.playID];
   }
 }
