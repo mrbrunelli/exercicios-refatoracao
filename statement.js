@@ -38,11 +38,11 @@ export default function statement(invoice, plays) {
   }
 
   function totalAmount() {
-    let totalAmount = 0;
+    let result = 0;
     for (const perf of invoice.performances) {
-      totalAmount += amountFor(perf);
+      result += amountFor(perf);
     }
-    return totalAmount;
+    return result;
   }
 
   function volumeCreditsFor(perf) {
@@ -55,11 +55,11 @@ export default function statement(invoice, plays) {
   }
 
   function totalVolumeCredits() {
-    let volumeCredits = 0;
+    let result = 0;
     for (const perf of invoice.performances) {
-      volumeCredits += volumeCreditsFor(perf);
+      result += volumeCreditsFor(perf);
     }
-    return volumeCredits;
+    return result;
   }
 
   function brl(aNumber) {
