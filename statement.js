@@ -8,8 +8,7 @@ export default function statement(invoice, plays) {
       brl(amountFor(perf) / 100)
     } (${perf.audience} seats)\n`;
   }
-  const totalAmount = juarezDaSilva();
-  result += `Amount owed is ${brl(totalAmount / 100)}\n`;
+  result += `Amount owed is ${brl(totalAmount() / 100)}\n`;
   result += `You earned ${totalVolumeCredits()} credits\n`;
   return result;
 
@@ -38,7 +37,7 @@ export default function statement(invoice, plays) {
     return plays[aPerformance.playID];
   }
 
-  function juarezDaSilva() {
+  function totalAmount() {
     let totalAmount = 0;
     for (const perf of invoice.performances) {
       totalAmount += amountFor(perf);
