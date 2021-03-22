@@ -2,14 +2,13 @@ const invoices = JSON.parse(Deno.readTextFileSync("./invoices.json"));
 const plays = JSON.parse(Deno.readTextFileSync("./plays.json"));
 
 export default function statement(invoice, plays) {
-  let totalAmount = 0;
   let result = `Statement for ${invoice.customer}\n`;
   for (const perf of invoice.performances) {
     result += `${playFor(perf).name}: ${
       brl(amountFor(perf) / 100)
     } (${perf.audience} seats)\n`;
-    totalAmount += amountFor(perf);
   }
+  const totalAmount = juarezDaSilva();
   result += `Amount owed is ${brl(totalAmount / 100)}\n`;
   result += `You earned ${totalVolumeCredits()} credits\n`;
   return result;
@@ -37,6 +36,14 @@ export default function statement(invoice, plays) {
 
   function playFor(aPerformance) {
     return plays[aPerformance.playID];
+  }
+
+  function juarezDaSilva() {
+    let totalAmount = 0;
+    for (const perf of invoice.performances) {
+      totalAmount += amountFor(perf);
+    }
+    return totalAmount;
   }
 
   function volumeCreditsFor(perf) {
