@@ -3,17 +3,15 @@ const plays = JSON.parse(Deno.readTextFileSync("./plays.json"));
 
 export default function statement(invoice, plays) {
   let totalAmount = 0;
-  let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
-  for (let perf of invoice.performances) {
-    volumeCredits += volumeCreditsFor(perf);
+  for (const perf of invoice.performances) {
     result += `${playFor(perf).name}: ${
       brl(amountFor(perf) / 100)
     } (${perf.audience} seats)\n`;
     totalAmount += amountFor(perf);
   }
   result += `Amount owed is ${brl(totalAmount / 100)}\n`;
-  result += `You earned ${volumeCredits} credits\n`;
+  result += `You earned ${totalVolumeCredits()} credits\n`;
   return result;
 
   function amountFor(aPerformance) {
@@ -48,6 +46,14 @@ export default function statement(invoice, plays) {
       result += Math.floor(perf.audience / 5);
     }
     return result;
+  }
+
+  function totalVolumeCredits() {
+    let volumeCredits = 0;
+    for (const perf of invoice.performances) {
+      volumeCredits += volumeCreditsFor(perf);
+    }
+    return volumeCredits;
   }
 
   function brl(aNumber) {
