@@ -10,31 +10,7 @@ export default function statement(invoice, plays) {
   function enrichPerformance(aPerformance) {
     const result = Object.assign({}, aPerformance);
     result.play = playFor(result);
-    return result;
-  }
-
-  function playFor(aPerformance) {
-    return plays[aPerformance.playID];
-  }
-}
-
-function renderPlainText(data, plays) {
-  let result = `Statement for ${data.customer}\n`;
-  for (const perf of data.performances) {
-    result += `${perf.play.name}: ${
-      brl(amountFor(perf) / 100)
-    } (${perf.audience} seats)\n`;
-  }
-  result += `Amount owed is ${brl(totalAmount() / 100)}\n`;
-  result += `You earned ${totalVolumeCredits()} credits\n`;
-  return result;
-
-  function volumeCreditsFor(aPerformance) {
-    let result = 0;
-    result += Math.max(aPerformance.audience - 30, 0);
-    if ("comedy" === aPerformance.play.type) {
-      result += Math.floor(aPerformance.audience / 5);
-    }
+    result.amount = amountFor(result);
     return result;
   }
 
@@ -59,10 +35,35 @@ function renderPlainText(data, plays) {
     return result;
   }
 
+  function playFor(aPerformance) {
+    return plays[aPerformance.playID];
+  }
+}
+
+function renderPlainText(data, plays) {
+  let result = `Statement for ${data.customer}\n`;
+  for (const perf of data.performances) {
+    result += `${perf.play.name}: ${
+      brl(perf.amount / 100)
+    } (${perf.audience} seats)\n`;
+  }
+  result += `Amount owed is ${brl(totalAmount() / 100)}\n`;
+  result += `You earned ${totalVolumeCredits()} credits\n`;
+  return result;
+
+  function volumeCreditsFor(aPerformance) {
+    let result = 0;
+    result += Math.max(aPerformance.audience - 30, 0);
+    if ("comedy" === aPerformance.play.type) {
+      result += Math.floor(aPerformance.audience / 5);
+    }
+    return result;
+  }
+
   function totalAmount() {
     let result = 0;
     for (const perf of data.performances) {
-      result += amountFor(perf);
+      result += perf.amount;
     }
     return result;
   }
