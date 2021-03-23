@@ -2,12 +2,16 @@ const invoices = JSON.parse(Deno.readTextFileSync("./invoices.json"));
 const plays = JSON.parse(Deno.readTextFileSync("./plays.json"));
 
 export default function statement(invoice, plays) {
+  return renderPlainText(createStatementData(invoice, plays));
+}
+
+function createStatementData(invoice, plays) {
   const statementData = {};
   statementData.customer = invoice.customer;
   statementData.performances = invoice.performances.map(enrichPerformance);
   statementData.totalAmount = totalAmount(statementData);
   statementData.totalVolumeCredits = totalVolumeCredits(statementData);
-  return renderPlainText(statementData, plays);
+  return statementData;
 
   function enrichPerformance(aPerformance) {
     const result = Object.assign({}, aPerformance);
@@ -67,7 +71,7 @@ function renderPlainText(data, plays) {
       brl(perf.amount / 100)
     } (${perf.audience} seats)\n`;
   }
-  result += `Amount owed is ${brl(data.totalAmount/ 100)}\n`;
+  result += `Amount owed is ${brl(data.totalAmount / 100)}\n`;
   result += `You earned ${data.totalVolumeCredits} credits\n`;
   return result;
 
