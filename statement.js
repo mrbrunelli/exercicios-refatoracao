@@ -5,6 +5,8 @@ export default function statement(invoice, plays) {
   const statementData = {};
   statementData.customer = invoice.customer;
   statementData.performances = invoice.performances.map(enrichPerformance);
+  statementData.totalAmount = totalAmount(statementData);
+  statementData.totalVolumeCredits = totalVolumeCredits(statementData);
   return renderPlainText(statementData, plays);
 
   function enrichPerformance(aPerformance) {
@@ -12,6 +14,22 @@ export default function statement(invoice, plays) {
     result.play = playFor(result);
     result.amount = amountFor(result);
     result.volumeCredits = volumeCreditsFor(result);
+    return result;
+  }
+
+  function totalAmount(data) {
+    let result = 0;
+    for (const perf of data.performances) {
+      result += perf.amount;
+    }
+    return result;
+  }
+
+  function totalVolumeCredits(data) {
+    let result = 0;
+    for (const perf of data.performances) {
+      result += perf.volumeCredits;
+    }
     return result;
   }
 
@@ -57,25 +75,9 @@ function renderPlainText(data, plays) {
       brl(perf.amount / 100)
     } (${perf.audience} seats)\n`;
   }
-  result += `Amount owed is ${brl(totalAmount() / 100)}\n`;
-  result += `You earned ${totalVolumeCredits()} credits\n`;
+  result += `Amount owed is ${brl(data.totalAmount/ 100)}\n`;
+  result += `You earned ${data.totalVolumeCredits} credits\n`;
   return result;
-
-  function totalAmount() {
-    let result = 0;
-    for (const perf of data.performances) {
-      result += perf.amount;
-    }
-    return result;
-  }
-
-  function totalVolumeCredits() {
-    let result = 0;
-    for (const perf of data.performances) {
-      result += perf.volumeCredits;
-    }
-    return result;
-  }
 
   function brl(aNumber) {
     return `R$ ${aNumber}`;
