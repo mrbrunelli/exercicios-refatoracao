@@ -7,9 +7,9 @@ const plays = JSON.parse(Deno.readTextFileSync("./plays.json"));
 Deno.test("Deve retornar o Statement de BigCo", () => {
   const expected = `Statement for BigCo
 Hamlet: R$ 650 (55 seats)
-As You Like It: R$ 475 (35 seats)
+As You Like It: R$ 580 (35 seats)
 Othello: R$ 500 (40 seats)
-Amount owed is R$ 1625
+Amount owed is R$ 1730
 You earned 47 credits
 `;
   const received = statement(invoices, plays);
@@ -21,10 +21,10 @@ Deno.test("Deve retornar o HTML Statement de BigCo", () => {
 <table>
 <tr><th>play</th><th>seats</th><th>cost</th></tr>
 <tr><td>Hamlet</td><td>55</td><td>R$ 650</td></tr>
-<tr><td>As You Like It</td><td>35</td><td>R$ 475</td></tr>
+<tr><td>As You Like It</td><td>35</td><td>R$ 580</td></tr>
 <tr><td>Othello</td><td>40</td><td>R$ 500</td></tr>
 </table>
-<p>Amount owed is <em>R$ 1625</em></p>
+<p>Amount owed is <em>R$ 1730</em></p>
 <p>You earned <em>47</em> credits</p>
 `;
   const received = htmlStatement(invoices, plays);
