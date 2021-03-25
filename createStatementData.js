@@ -7,9 +7,9 @@ export default function createStatementData(invoice, plays) {
   return statementData;
 
   function enrichPerformance(aPerformance) {
-    const calculator = new PerformanceCalculator(
+    const calculator = createPerformanceCalculator(
       aPerformance,
-      playFor(aPerformance),
+      playFor(aPerformance)
     );
     const result = Object.assign({}, aPerformance);
     result.play = calculator.play;
@@ -39,6 +39,10 @@ export default function createStatementData(invoice, plays) {
   function playFor(aPerformance) {
     return plays[aPerformance.playID];
   }
+}
+
+function createPerformanceCalculator(aPerformance, aPlay) {
+  return new PerformanceCalculator(aPerformance, aPlay);
 }
 
 class PerformanceCalculator {
