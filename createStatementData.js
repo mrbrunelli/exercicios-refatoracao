@@ -31,6 +31,7 @@ export default function createStatementData(invoice, plays) {
   }
 }
 
+// Esse problema seria resolvido com uma interface
 function createPerformanceCalculator(aPerformance, aPlay) {
   switch (aPlay.type) {
     case "tragedy":
